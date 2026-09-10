@@ -137,5 +137,46 @@ def generate_endpoint():
 
     return jsonify({"detail": "Could not guarantee a unique password."}), 500
 
+ADMIN_SECRET = os.getenv("ADMIN_SECRET", "super-secret-admin-key")
+
+def require_admin(req):
+    return req.headers.get("X-Admin-Key") == ADMIN_SECRET
+
+@app.route("/admin/search", methods=["GET"])
+def admin_search():
+    if not require_admin(request): return jsonify({"detail": "Unauthorized"}), 401
+    query = request.args.get("query", "").strip()
+    if not query: return jsonify({"detail": "No query"}), 400
+    
+    from database import get_connection
+    conn = get_connection()
+    c = conn.cursor()
+    c.execute('SELECT id, name, email, is_premium FROM users WHERE id = ? OR email = ?', (query, query))
+    user = c.fetchone()
+    conn.close()
+    if not user: return jsonify({"detail": "User not found"}), 404
+    return jsonify(dict(user))
+
+@app.route("/admin/toggle_premium", methods=["POST"])
+def admin_toggle():
+    if not require_admin(request): return jsonify({"detail": "Unauthorized"}), 401
+    user_id = request.json.get("user_id")
+    if not user_id: return jsonify({"detail": "No user ID"}), 400
+
+    from database import get_connection
+    conn = get_connection()
+    c = conn.cursor()
+    c.execute('SELECT is_premium FROM users WHERE id = ?', (user_id,))
+    user = c.fetchone()
+    if not user:
+        conn.close()
+        return jsonify({"detail": "User not found"}), 404
+    
+    new_status = 0 if user["is_premium"] else 1
+    c.execute('UPDATE users SET is_premium = ? WHERE id = ?', (new_status, user_id))
+    conn.commit()
+    conn.close()
+    return jsonify({"success": True, "new_status": bool(new_status)})
+
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=8000, debug=True)
