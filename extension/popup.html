@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UniquePass</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div id="auth-screen" class="screen">
+        <header>
+            <div class="title-area">
+                <h1>UniquePass</h1>
+                <span class="subtitle">Secure Password Generator</span>
+            </div>
+            <div class="status-indicator">
+                <span id="backend-status-dot-auth" class="dot"></span>
+                <span id="backend-status-text-auth">Checking...</span>
+            </div>
+        </header>
+
+        <div class="auth-tabs">
+            <button id="tab-login" class="auth-tab active">Login</button>
+            <button id="tab-register" class="auth-tab">Register</button>
+        </div>
+
+        <form id="login-form" class="auth-form active">
+            <input type="email" id="login-email" placeholder="Email" required>
+            <input type="password" id="login-password" placeholder="Password" required>
+            <button type="submit" class="primary-btn">Login</button>
+        </form>
+
+        <form id="register-form" class="auth-form">
+            <input type="text" id="register-name" placeholder="Full Name" required>
+            <input type="email" id="register-email" placeholder="Email" required>
+            <input type="password" id="register-password" placeholder="Password" required>
+            <button type="submit" class="primary-btn">Create Account</button>
+        </form>
+        <div id="auth-error" class="error-msg hidden"></div>
+    </div>
+
+    <div id="main-screen" class="screen hidden">
+        <header>
+            <div class="title-area">
+                <h1>UniquePass</h1>
+                <span class="subtitle" id="user-greeting">Welcome</span>
+            </div>
+            <div class="status-indicator">
+                <span id="backend-status-dot" class="dot"></span>
+                <span id="backend-status-text">Checking...</span>
+            </div>
+        </header>
+
+        <div class="main-tabs">
+            <button id="nav-generator" class="nav-tab active">Generator</button>
+            <button id="nav-profile" class="nav-tab">Profile</button>
+        </div>
+
+        <div id="view-generator" class="view active">
+            <div class="password-card">
+                <div class="password-display-wrapper">
+                    <input type="text" id="password-display" readonly placeholder="Generating...">
+                    <div class="password-actions">
+                        <button id="toggle-visibility" title="Show/Hide">👁️</button>
+                        <button id="copy-btn" title="Copy to Clipboard">📋</button>
+                    </div>
+                </div>
+                <div class="strength-bar">
+                    <div id="strength-fill" class="fill"></div>
+                </div>
+                <div class="strength-info">
+                    <span id="ai-indicator" class="hidden">✨ AI Generated</span>
+                    <div class="strength-text" id="strength-text">Evaluating...</div>
+                </div>
+            </div>
+
+            <div class="controls-card">
+                <div class="control-group length-group">
+                    <label for="length-slider">Password Length</label>
+                    <div class="slider-row">
+                        <input type="range" id="length-slider" min="8" max="64" value="20">
+                        <input type="number" id="length-input" min="8" max="64" value="20">
+                    </div>
+                </div>
+
+                <div class="options-grid">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="opt-uppercase" checked> Uppercase
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="opt-lowercase" checked> Lowercase
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="opt-numbers" checked> Numbers
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="opt-symbols" checked> Symbols
+                    </label>
+                </div>
+
+                <div class="control-group">
+                    <label for="symbol-set">Custom Symbol Set</label>
+                    <input type="text" id="symbol-set" value="!@#$%^&*">
+                </div>
+
+                <div class="control-group check-group">
+                    <label class="checkbox-label require-all">
+                        <input type="checkbox" id="opt-require-all" checked>
+                        <span>Require at least one character from every selected category</span>
+                    </label>
+                </div>
+                
+                <div class="control-group check-group">
+                    <label class="checkbox-label require-all">
+                        <input type="checkbox" id="opt-clear-clipboard">
+                        <span>Clear clipboard after 10 seconds (requires popup open)</span>
+                    </label>
+                </div>
+            </div>
+
+            <button id="generate-btn" class="primary-btn">Generate Secure Password</button>
+        </div>
+
+        <div id="view-profile" class="view hidden">
+            <div class="profile-card">
+                <div class="profile-avatar">👤</div>
+                <h2 id="profile-name">...</h2>
+                <p class="profile-email" id="profile-email">...</p>
+                
+                <div class="profile-detail">
+                    <span class="label">User ID:</span>
+                    <span class="value" id="profile-id">...</span>
+                </div>
+                <div class="profile-detail">
+                    <span class="label">Account Tier:</span>
+                    <span class="value badge" id="profile-premium">Standard</span>
+                </div>
+
+                <button id="logout-btn" class="logout-btn">Log Out</button>
+            </div>
+        </div>
+
+        <div id="notification" class="notification hidden">Copied to clipboard!</div>
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html>
