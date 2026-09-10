@@ -145,8 +145,20 @@ function switchMainTab(tab) {
     const isGen = (tab === 'generator');
     dom.navGen.classList.toggle('active', isGen);
     dom.navProfile.classList.toggle('active', !isGen);
-    dom.viewGen.classList.toggle('active', isGen);
-    dom.viewProfile.classList.toggle('active', !isGen);
+
+    // Must explicitly add/remove 'hidden' because hidden uses !important
+    // which overrides 'active' display:flex if left on the element
+    if (isGen) {
+        dom.viewGen.classList.remove('hidden');
+        dom.viewGen.classList.add('active');
+        dom.viewProfile.classList.add('hidden');
+        dom.viewProfile.classList.remove('active');
+    } else {
+        dom.viewProfile.classList.remove('hidden');
+        dom.viewProfile.classList.add('active');
+        dom.viewGen.classList.add('hidden');
+        dom.viewGen.classList.remove('active');
+    }
 }
 
 // ── PROFILE TAB LOADER ──
