@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 CORS(app)
 
-N8N_WEBHOOK_URL = os.getenv("N8N_WEBHOOK_URL", "https://kausgh.app.n8n.cloud/webhook-test/fd0a9fb4-5ea1-4ca8-aad5-00e64acb4b1d")
+N8N_WEBHOOK_URL = os.getenv("N8N_WEBHOOK_URL", "https://kausgh.app.n8n.cloud/webhook/generate-password")
 
 with app.app_context():
     init_db()
