@@ -14,7 +14,7 @@ class AdminGUI:
         self.root.configure(padx=20, pady=20)
 
         # Variables
-        self.server_url = tk.StringVar(value="http://127.0.0.1:8000")
+        self.server_url = tk.StringVar(value="https://uniquepass.onrender.com")
         self.admin_key = tk.StringVar(value="super-secret-admin-key")
         self.search_var = tk.StringVar()
         
