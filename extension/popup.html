@@ -18,18 +18,15 @@
                 <span id="backend-status-text-auth">Checking...</span>
             </div>
         </header>
-
         <div class="auth-tabs">
             <button id="tab-login" class="auth-tab active">Login</button>
             <button id="tab-register" class="auth-tab">Register</button>
         </div>
-
         <form id="login-form" class="auth-form active">
             <input type="email" id="login-email" placeholder="Email address" required>
             <input type="password" id="login-password" placeholder="Password" required>
             <button type="submit" class="primary-btn">Login</button>
         </form>
-
         <form id="register-form" class="auth-form">
             <input type="text" id="register-name" placeholder="Full Name" required>
             <input type="email" id="register-email" placeholder="Email address" required>
@@ -113,42 +110,59 @@
 
         <!-- PROFILE VIEW -->
         <div id="view-profile" class="view hidden">
-            <div class="profile-card">
-                <div class="profile-header">
-                    <div class="profile-avatar-circle" id="profile-avatar-initials">?</div>
-                    <div class="profile-header-info">
-                        <div class="profile-name-row">
-                            <h2 id="profile-name">Loading...</h2>
-                            <span id="profile-premium-badge" class="tier-badge standard-badge">Standard</span>
+
+            <!-- Loading state -->
+            <div id="profile-loading" class="profile-state-box">
+                <div class="spinner"></div>
+                <p style="color:var(--muted);font-size:13px;margin:10px 0 0">Loading your profile...</p>
+            </div>
+
+            <!-- Error state -->
+            <div id="profile-error" class="profile-state-box hidden">
+                <p style="font-size:28px;margin:0">⚠️</p>
+                <p id="profile-error-msg" style="color:var(--danger);font-size:13px;text-align:center;margin:6px 0"></p>
+                <button id="profile-retry-btn" class="primary-btn" style="width:auto;padding:8px 20px;margin-top:8px;font-size:13px;">Try Again</button>
+            </div>
+
+            <!-- Loaded profile content -->
+            <div id="profile-content" class="hidden">
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar-circle" id="profile-avatar-initials">?</div>
+                        <div class="profile-header-info">
+                            <div class="profile-name-row">
+                                <h2 id="profile-name">—</h2>
+                                <span id="profile-premium-badge" class="tier-badge standard-badge">Standard</span>
+                            </div>
+                            <p class="profile-email" id="profile-email">—</p>
                         </div>
-                        <p class="profile-email" id="profile-email">...</p>
                     </div>
-                </div>
 
-                <div class="profile-info-grid">
-                    <div class="info-block">
-                        <div class="info-label">User ID</div>
-                        <div class="info-value mono" id="profile-id">...</div>
+                    <div class="profile-info-grid">
+                        <div class="info-block">
+                            <div class="info-label">User ID</div>
+                            <div class="info-value mono" id="profile-id">—</div>
+                        </div>
+                        <div class="info-block">
+                            <div class="info-label">Account Type</div>
+                            <div class="info-value" id="profile-tier">Standard</div>
+                        </div>
+                        <div class="info-block full-width">
+                            <div class="info-label">AI Password Generation</div>
+                            <div class="info-value" id="profile-ai-status">—</div>
+                        </div>
                     </div>
-                    <div class="info-block">
-                        <div class="info-label">Account Type</div>
-                        <div class="info-value" id="profile-tier">Standard</div>
-                    </div>
-                    <div class="info-block full-width">
-                        <div class="info-label">AI Password Generation</div>
-                        <div class="info-value" id="profile-ai-status">❌ Not Available (Upgrade to Premium)</div>
-                    </div>
-                </div>
 
-                <div id="premium-banner" class="premium-banner hidden">
-                    <span class="banner-icon">👑</span>
-                    <div>
-                        <div class="banner-title">Premium Active</div>
-                        <div class="banner-sub">Your passwords are AI-generated via n8n</div>
+                    <div id="premium-banner" class="premium-banner hidden">
+                        <span class="banner-icon">👑</span>
+                        <div>
+                            <div class="banner-title">Premium Active</div>
+                            <div class="banner-sub">Your passwords are AI-generated via n8n</div>
+                        </div>
                     </div>
-                </div>
 
-                <button id="logout-btn" class="logout-btn">🚪 Log Out</button>
+                    <button id="logout-btn" class="logout-btn">🚪 Log Out</button>
+                </div>
             </div>
         </div>
 
